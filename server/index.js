@@ -24,8 +24,8 @@ app.use("/", (req ,res) =>{
     res.send('hi')
 });
 
-//hgfhf
 
+mongoose.set('strictQuery', true);
 mongoose
   .connect(
     process.env.MONGO_URI,  {
@@ -34,7 +34,7 @@ mongoose
     console.log("MongoDB Connected Successfully....")
   )
   .then(() => {
-    app.listen(9000);
+    app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log(err);
