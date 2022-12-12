@@ -6,7 +6,7 @@ export default function Login() {
     <div>
       <div className="container">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-6 bodyy">
             <div className="card">
               <form className="box">
                 <h1>Login</h1>
