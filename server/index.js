@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-
+//const dotenv = require ('dotenv')
 const mongoose = require("mongoose");
 
 const app = express();
 
 app.use(express.json());
+
+require("dotenv").config()
+
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,7 +28,9 @@ app.use("/", (req ,res) =>{
 
 mongoose
   .connect(
-    `mongodb+srv://root:Tomandjerry03@cluster0.hb7rq.mongodb.net/myapp?retryWrites=true&w=majority`,
+    process.env.MONGO_URI,  {
+        useNewUrlParser: true,
+      },
     console.log("MongoDB Connected Successfully....")
   )
   .then(() => {
