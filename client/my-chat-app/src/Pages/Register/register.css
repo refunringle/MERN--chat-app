@@ -93,7 +93,7 @@ h3 {
     color: #262626
 }
 
-.loginBox input[type="submit"] {
+.loginBox button[type="submit"] {
     border: none;
     outline: none;
     height: 40px;
@@ -101,11 +101,13 @@ h3 {
     background: #af343a;
     color: #fff;
     border-radius: 20px;
-    cursor: pointer
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .loginBox a {
-    color: #a6ca62;
+    color: #d7d8d5;
     font-size: 17px;
     font-weight: bold;
     text-decoration: none;
