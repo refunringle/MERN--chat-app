@@ -1,5 +1,6 @@
-body {
+.login {
     margin: 0;
+    height: 100vh;
     padding: 0;
     font-family: sans-serif;
     background: linear-gradient(to right, #b92b27, #1565c0)
@@ -17,10 +18,9 @@ body {
     top: 50%;
     left: 50%;
     background: #191919;
-    ;
     text-align: center;
     transition: 0.25s;
-    margin-top: 100px
+    margin-top: 160px
 }
 
 .box input[type="text"],
