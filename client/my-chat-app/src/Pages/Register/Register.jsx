@@ -3,6 +3,7 @@ import "./register.css";
 import { Link } from "react-router-dom";
 import { useForm } from "../../Utility/hooks";
 import { ToastContainer } from "react-toastify";
+import axios from "axios";
 
 export default function Register() {
   const [username, setUserName] = useState("");
@@ -12,6 +13,7 @@ export default function Register() {
 
   const loginusercallback = () => {
     console.log("loginusercallback");
+    handleSubmit();
   };
 
   const { onChange, onSubmit, values } = useForm(loginusercallback, {
@@ -19,10 +21,32 @@ export default function Register() {
     email: "",
     password: "",
     Re_password: "",
-    isLogin: false
+    isLogin: false,
   });
 
   console.log(values.Re_password, "valure");
+
+  const handleSubmit = (event) => {
+    const { username, password, email } = values;
+    //  const data = { username, password, email };
+    console.log(email, "dataaaa");
+
+    // Send the form data to the Node.js server
+    axios
+      .post("http://localhost:5000/register", {
+        username,
+        email,
+        password,
+      })
+      //   .then((response) => response.json())
+      .then((response) => {
+        if (response.data) {
+          alert("Data was saved successfully!");
+        } else {
+          alert("There was an error saving the data.");
+        }
+      });
+  };
 
   return (
     <div className="bodys">
@@ -35,7 +59,7 @@ export default function Register() {
           width="100px"
         />
         <h3>Sign Up Here</h3>
-        <form  onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
           <div className="inputBox">
             <input
               type="text"
