@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./register.css";
-import { Link } from "react-router-dom";
 import { useForm } from "../../Utility/hooks";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, Link } from "react-router-dom";
+
 
 
 export default function Register() {
@@ -18,6 +19,8 @@ export default function Register() {
     console.log("loginusercallback");
     handleSubmit();
   };
+
+  const navigate = useNavigate();
 
   const { onChange, onSubmit, values } = useForm(loginusercallback, {
     username: "",
@@ -54,6 +57,7 @@ export default function Register() {
         toast.error(data.msg, toast_options);
       }else{
         localStorage.setItem("chat-app-user",JSON.stringify(data.user));
+        navigate("/");
         toast.success('Register Successfully..', toast_options);
       }
 }

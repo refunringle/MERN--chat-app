@@ -24,6 +24,35 @@ const register = async (req, res, next) => {
   }
 };
 
+
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const checkUser = await User.findOne({ email });
+    const encryptedPassword = await bcrypt.compare(password, checkUser.password);
+
+    if (!checkUser ) {
+      return res.json({ msg: "User Not Exists", status: false });
+    }
+    else if (checkUser && !encryptedPassword ) {
+      return res.json({ msg: "Password Wrong ", status: false });
+    }
+
+    const user = {
+      email: email,
+      password: checkUser.password,
+    };
+ //   console.log(email, "username");
+
+    delete user.password
+    return res.json({ status : true , user})
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {
   register,
+  login
 };
