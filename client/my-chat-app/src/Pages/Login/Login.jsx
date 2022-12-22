@@ -1,20 +1,56 @@
 import React ,{useState} from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
 import { useForm } from "../../Utility/hooks";
 import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, Link } from "react-router-dom";
 
 
 export default function Login() {
   const loginusercallback = () => {
     console.log("loginusercallback");
+    handleSubmit()
   };
+
+  const navigate = useNavigate();
+
 
   const { onChange, onSubmit, values } = useForm(loginusercallback, {
     email: "",
     password: "",
     isLogin: true
   });
+
+  const toast_options = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  };
+
+const handleSubmit = async (event) => {
+  const { password, email } = values;
+  console.log(email, "dataaaa");
+
+  const { data } = 
+     await axios.post("http://localhost:5000/login", {
+      email,
+      password,
+    })
+    if (data.status === false){
+      toast.error(data.msg, toast_options);
+    }else{
+      localStorage.setItem("chat-app-user",JSON.stringify(data.user));
+      toast.success('Register Successfully..', toast_options);
+      navigate("/");
+    }
+}
 
   return (
     <div className="login">

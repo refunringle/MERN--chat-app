@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "./register.css";
-import { Link } from "react-router-dom";
 import { useForm } from "../../Utility/hooks";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, Link } from "react-router-dom";
+
+
 
 export default function Register() {
   const [username, setUserName] = useState("");
@@ -16,6 +20,8 @@ export default function Register() {
     handleSubmit();
   };
 
+  const navigate = useNavigate();
+
   const { onChange, onSubmit, values } = useForm(loginusercallback, {
     username: "",
     email: "",
@@ -26,27 +32,35 @@ export default function Register() {
 
   console.log(values.Re_password, "valure");
 
-  const handleSubmit = (event) => {
+    const toast_options = {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    };
+
+  const handleSubmit = async (event) => {
     const { username, password, email } = values;
-    //  const data = { username, password, email };
     console.log(email, "dataaaa");
 
-    // Send the form data to the Node.js server
-    axios
-      .post("http://localhost:5000/register", {
+    const {data} = 
+       await axios.post("http://localhost:5000/register", {
         username,
         email,
         password,
       })
-      //   .then((response) => response.json())
-      .then((response) => {
-        if (response.data) {
-          alert("Data was saved successfully!");
-        } else {
-          alert("There was an error saving the data.");
-        }
-      });
-  };
+      if (data.status === false){
+        toast.error(data.msg, toast_options);
+      }else{
+        localStorage.setItem("chat-app-user",JSON.stringify(data.user));
+        navigate("/");
+        toast.success('Register Successfully..', toast_options);
+      }
+}
 
   return (
     <div className="bodys">
